@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bqn6ueeu2nbwr"]
+
+[ext_resource type="Texture2D" uid="uid://fvdl0i41qhdx" path="res://Game/Tecstur/1_ Trees Background.png" id="1_e8j8q"]
+[ext_resource type="Script" uid="uid://d1mp1ufdst1lw" path="res://bg.gd" id="1_iq1of"]
+[ext_resource type="Texture2D" uid="uid://dl3cxf7khcr5v" path="res://Game/Tecstur/3_ Trees.png" id="2_iq1of"]
+[ext_resource type="Texture2D" uid="uid://yvixvf2p4u4s" path="res://Game/Tecstur/4_ Trees.png" id="3_36ycx"]
+
+[node name="BG" type="ParallaxBackground" unique_id=451208577]
+script = ExtResource("1_iq1of")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="." unique_id=1953818894]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="1TreesBackground" type="Sprite2D" parent="ParallaxLayer" unique_id=664850772]
+position = Vector2(579, 324.5)
+scale = Vector2(2.1984732, 2.5894308)
+texture = ExtResource("1_e8j8q")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="." unique_id=1472002003]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1144, 0)
+
+[node name="3Trees" type="Sprite2D" parent="ParallaxLayer2" unique_id=1503945046]
+position = Vector2(580, 321.5)
+scale = Vector2(2.4126318, 1.9721363)
+texture = ExtResource("2_iq1of")
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="." unique_id=173498056]
+motion_mirroring = Vector2(1143, 0)
+
+[node name="4Trees" type="Sprite2D" parent="ParallaxLayer3" unique_id=525961616]
+position = Vector2(573.99994, 316.49997)
+scale = Vector2(2.2307692, 2.249147)
+texture = ExtResource("3_36ycx")
