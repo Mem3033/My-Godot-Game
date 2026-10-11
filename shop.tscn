@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bh7iiddfbiipb"]
+
+[ext_resource type="Texture2D" uid="uid://berkjxgvk2p43" path="res://Pngs/Building2.png" id="1_viryw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cciid"]
+radius = 82.02438
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7rdd"]
+atlas = ExtResource("1_viryw")
+region = Rect2(0, 0, 161, 176)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hji7d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7rdd")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 9.0
+}]
+
+[node name="Shop" type="Area2D" unique_id=1679399793]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=468912422]
+shape = SubResource("CircleShape2D_cciid")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1113103018]
+position = Vector2(4.525733, -2.8235323)
+scale = Vector2(1.0742145, 1.0889037)
+sprite_frames = SubResource("SpriteFrames_hji7d")
+autoplay = "default"

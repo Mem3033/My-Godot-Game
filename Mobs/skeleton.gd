@@ -1,80 +1,125 @@
 extends CharacterBody2D
 
-var chase = false
-var speed = 100
+const SPEED = 100.0
+const DAMAGE = 15
+const ATTACK_DISTANCE = 35.0
+const ATTACK_COOLDOWN = 1.0
+
 @onready var anim = $AnimatedSprite2D
+
+var health = 60
 var alive = true
+var chase = false
+var attacking = false
+var attack_timer = 0.0
+var player: Node2D
 
 
-func _physics_process(delta: float) -> void:
-	# Гравитация
+func _ready():
+	player = get_tree().get_first_node_in_group("player") as Node2D
+	anim.animation_finished.connect(_on_animation_finished)
+
+
+func _physics_process(delta):
+	if not alive:
+		return
+
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Находим игрока
-	var player = $"../../Player/Player"
+	attack_timer = maxf(attack_timer - delta, 0.0)
 
-	if alive:
-		if chase:
-			# Движение вправо
-			if player.position.x > position.x:
-				velocity.x = speed
-				anim.flip_h = false
-				anim.play("Run")
+	if not is_instance_valid(player):
+		player = get_tree().get_first_node_in_group("player") as Node2D
 
-			# Движение влево
-			elif player.position.x < position.x:
-				velocity.x = -speed
-				anim.flip_h = true
-				anim.play("Run")
+	if not is_instance_valid(player) or not chase:
+		velocity.x = move_toward(velocity.x, 0.0, SPEED)
 
-			# Если игрок прямо рядом по X
-			else:
-				velocity.x = 0
-				anim.play("Idle")
-
-		else:
-			# Игрок вышел из зоны
-			velocity.x = 0
+		if not attacking:
 			anim.play("Idle")
+
+		move_and_slide()
+		return
+
+	var distance = global_position.distance_to(player.global_position)
+
+	if distance <= ATTACK_DISTANCE:
+		velocity.x = 0.0
+
+		if not attacking:
+			anim.play("Idle")
+
+		if attack_timer <= 0.0:
+			attack()
+	else:
+		velocity.x = sign(player.global_position.x - global_position.x) * SPEED
+		anim.flip_h = player.global_position.x < global_position.x
+
+		if not attacking:
+			anim.play("Run")
 
 	move_and_slide()
 
 
-func _on_detector_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
+func _on_detector_body_entered(body: Node2D):
+	if body.is_in_group("player"):
+		player = body
 		chase = true
 
 
-func _on_detector_body_exited(body: Node2D) -> void:
-	if body.name == "Player":
+func _on_detector_body_exited(body: Node2D):
+	if body.is_in_group("player"):
 		chase = false
+		velocity.x = 0.0
 
 
-func _on_death_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
-		body.velocity.y -= 300
+func attack():
+	if not alive or not is_instance_valid(player):
+		return
+
+	attacking = true
+	attack_timer = ATTACK_COOLDOWN
+	anim.play("Attack")
+	if player.has_method("take_damage"):
+		player.take_damage(DAMAGE)
+
+
+func _on_animation_finished():
+	if anim.animation == "Attack":
+		attacking = false
+
+		if alive:
+			anim.play("Idle")
+
+
+func take_damage(amount: int):
+	if not alive:
+		return
+
+	health -= amount
+
+	if health <= 0:
 		death()
 
-func _on_death_2_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
-		if alive == true:
-			body.health -=40
+
+func _on_death_body_entered(body: Node2D):
+	if not alive or not body.is_in_group("player"):
+		return
+
+	if body.velocity.y > 0 and body.global_position.y < global_position.y:
+		body.velocity.y = -300
 		death()
 
-func death() -> void:
-	# Чтобы смерть не запускалась несколько раз
+
+func death():
 	if not alive:
 		return
 
 	alive = false
 	chase = false
-	velocity.x = 0
-
-	# Анимация смерти
+	attacking = false
+	velocity = Vector2.ZERO
 	anim.play("Death")
 
 	await anim.animation_finished
-
-	# Удаляем моба после окончания анимации
 	queue_free()

@@ -3,12 +3,61 @@
 [ext_resource type="Script" uid="uid://bmxq37on27jbq" path="res://Mobs/skeleton.gd" id="1_7hjwy"]
 [ext_resource type="Texture2D" uid="uid://fvssmc4v3w3g" path="res://Game/Character/Skeleton/Take Hit.png" id="1_wwbpb"]
 [ext_resource type="Texture2D" uid="uid://cspi0mus2v13d" path="res://Game/Character/Skeleton/Death.png" id="2_7hjwy"]
+[ext_resource type="Texture2D" uid="uid://cwlnspdr7whvb" path="res://Game/Character/Skeleton/Attack.png" id="2_k1f85"]
 [ext_resource type="Texture2D" uid="uid://dkqjfx7t043do" path="res://Game/Character/Skeleton/Idle.png" id="3_k1f85"]
 [ext_resource type="Texture2D" uid="uid://dmchikrxsgica" path="res://Game/Character/Skeleton/Walk.png" id="4_cjg8j"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l1o4d"]
 radius = 11.0
 height = 40.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjg8j"]
+atlas = ExtResource("2_k1f85")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwne6"]
+atlas = ExtResource("2_k1f85")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_md1ud"]
+atlas = ExtResource("2_k1f85")
+region = Rect2(300, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3dga"]
+atlas = ExtResource("2_k1f85")
+region = Rect2(450, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsi8e"]
+atlas = ExtResource("2_k1f85")
+region = Rect2(600, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htqgt"]
+atlas = ExtResource("2_k1f85")
+region = Rect2(750, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cmde"]
+atlas = ExtResource("2_k1f85")
+region = Rect2(900, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxgoq"]
+atlas = ExtResource("2_k1f85")
+region = Rect2(1050, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tjtkm"]
+atlas = ExtResource("1_wwbpb")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwcb5"]
+atlas = ExtResource("1_wwbpb")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_met4f"]
+atlas = ExtResource("1_wwbpb")
+region = Rect2(300, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxxm6"]
+atlas = ExtResource("1_wwbpb")
+region = Rect2(450, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gikci"]
 atlas = ExtResource("1_wwbpb")
@@ -68,6 +117,52 @@ region = Rect2(450, 0, 150, 150)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_l1o4d"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cjg8j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwne6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_md1ud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g3dga")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsi8e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htqgt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8cmde")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxgoq")
+}],
+"loop": 0,
+"name": &"Attack",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tjtkm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rwcb5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_met4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxxm6")
+}],
+"loop": 0,
+"name": &"Damage",
+"speed": 7.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gikci")
@@ -145,11 +240,15 @@ shape = SubResource("CapsuleShape2D_l1o4d")
 position = Vector2(-1.0000002, -4)
 scale = Vector2(1.0491668, 0.85333335)
 sprite_frames = SubResource("SpriteFrames_l1o4d")
-animation = &"Idle"
+animation = &"Damage"
 autoplay = "Idle"
+frame = 3
+frame_progress = 1.0
 
 [node name="Detector" type="Area2D" parent="." unique_id=314507210]
 visible = false
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Detector" unique_id=1616693163]
 shape = SubResource("CircleShape2D_t1kvf")
